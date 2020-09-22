@@ -4,10 +4,18 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"post", "get"},
+ *     itemOperations={"get", "patch", "delete"},
+ *     denormalizationContext={"groups"={"student:write"}},
+ *     normalizationContext={"groups"={"student:read"}}
+ * )
  * @ORM\Entity(repositoryClass=StudentRepository::class)
  */
 class Student
@@ -21,18 +29,37 @@ class Student
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"student:read", "student:write"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"student:read", "student:write"})
      */
     private $surname;
 
     /**
      * @ORM\Column(type="date")
+     *
+     * @Groups({"student:read", "student:write"})
      */
     private $birthday;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Score::class, mappedBy="student", orphanRemoval=true)
+     *
+     * @Groups({"student:read"})
+     */
+    private $scores;
+
+
+    public function __construct()
+    {
+        $this->scores = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,4 +101,37 @@ class Student
 
         return $this;
     }
+
+    /**
+     * @return Collection|Score[]
+     */
+    public function getScores(): Collection
+    {
+        return $this->scores;
+    }
+
+    public function addScore(Score $score): self
+    {
+        if (!$this->scores->contains($score)) {
+            $this->scores[] = $score;
+            $score->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScore(Score $score): self
+    {
+        if ($this->scores->contains($score)) {
+            $this->scores->removeElement($score);
+            // set the owning side to null (unless already changed)
+            if ($score->getStudent() === $this) {
+                $score->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }
