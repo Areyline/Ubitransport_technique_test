@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Score;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,6 +20,22 @@ class ScoreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Score::class);
     }
+
+    public function calculateAverage()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT AVG(s.value)
+            FROM App\Entity\Score s'
+        );
+
+        // returns average
+
+            return $query->getSingleScalarResult();
+
+    }
+
 
     // /**
     //  * @return Score[] Returns an array of Score objects

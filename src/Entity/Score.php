@@ -11,7 +11,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     denormalizationContext={"groups"={"score:write"}},
  *     normalizationContext={"groups"={"score:read"}},
- *     collectionOperations={"post"},
+ *     collectionOperations={
+ *          "post"={},
+ *          "calculate-class-average"={
+ *              "method"="GET",
+ *              "path"="/scores/average",
+ *              "controller"=App\Controller\CalculateClassAverage::class
+ *          },
+ *      },
  *     itemOperations={"patch", "delete", "get"}
  * )
  * @ORM\Entity(repositoryClass=ScoreRepository::class)
