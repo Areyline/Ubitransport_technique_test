@@ -133,5 +133,26 @@ class Student
         return $this;
     }
 
+    /**
+     * @Groups({"student:read"})
+     */
+    public function getAverage() :float
+    {
+        $total=0.0;
+
+        foreach ($this->scores as $score){
+            $total= $total + $score->getValue();
+        }
+
+        if (count($this->scores)>0){
+            $average= $total/count($this->scores);
+        }else{
+            $average=0.0;
+        }
+
+        return $average;
+    }
+
+
 
 }
