@@ -2,7 +2,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^7.2.5",
+        "php": "7.4.10",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/core": "^2.5",
@@ -29,7 +29,10 @@
         "symfony/yaml": "5.0.*"
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.21"
+        "symfony/maker-bundle": "^1.21",
+        "symfony/phpunit-bridge": "^5.1",
+        "symfony/stopwatch": "^5.1",
+        "symfony/web-profiler-bundle": "^5.0"
     },
     "config": {
         "preferred-install": {

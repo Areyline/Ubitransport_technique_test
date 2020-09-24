@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -9,12 +11,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
 /**
  * @ApiResource(
- *     collectionOperations={"post", "get"},
- *     itemOperations={"get", "patch", "delete"},
- *     denormalizationContext={"groups"={"student:write"}},
- *     normalizationContext={"groups"={"student:read"}}
+ *     collectionOperations={ "post", "get"},
+ *     itemOperations={"get", "delete", "put"},
+ *     normalizationContext={"groups"={"student:read"}},
+ *     denormalizationContext={"groups"={"student:write"}}
  * )
  * @ORM\Entity(repositoryClass=StudentRepository::class)
  */
@@ -25,35 +28,35 @@ class Student
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
      * @Groups({"student:read", "student:write"})
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
      * @Groups({"student:read", "student:write"})
      */
-    private $surname;
+    private string $surname;
 
     /**
      * @ORM\Column(type="date")
      *
      * @Groups({"student:read", "student:write"})
      */
-    private $birthday;
+    private string $birthday;
 
     /**
      * @ORM\OneToMany(targetEntity=Score::class, mappedBy="student", orphanRemoval=true)
      *
      * @Groups({"student:read"})
      */
-    private $scores;
+    private Collection $scores;
 
 
     public function __construct()
@@ -136,23 +139,21 @@ class Student
     /**
      * @Groups({"student:read"})
      */
-    public function getAverage() :float
+    public function getAverage(): float
     {
-        $total=0.0;
+        $total = 0.0;
 
-        foreach ($this->scores as $score){
-            $total= $total + $score->getValue();
+        foreach ($this->scores as $score) {
+            $total = $total + $score->getValue();
         }
 
-        if (count($this->scores)>0){
-            $average= $total/count($this->scores);
-        }else{
-            $average=0.0;
+        $average = 0.0;
+        if (count($this->scores) > 0) {
+            $average = $total / count($this->scores);
         }
 
         return $average;
     }
-
 
 
 }
