@@ -186,6 +186,9 @@
     "symfony/dependency-injection": {
         "version": "v5.0.11"
     },
+    "symfony/deprecation-contracts": {
+        "version": "v2.2.0"
+    },
     "symfony/doctrine-bridge": {
         "version": "v5.0.11"
     },
@@ -260,9 +263,6 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
-    "symfony/mime": {
-        "version": "v5.0.11"
-    },
     "symfony/monolog-bridge": {
         "version": "v5.0.11"
     },
@@ -284,7 +284,22 @@
     "symfony/orm-pack": {
         "version": "v2.0.0"
     },
-    "symfony/polyfill-intl-idn": {
+    "symfony/phpunit-bridge": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "6d0e35f749d5f4bfe1f011762875275cd3f9874f"
+        },
+        "files": [
+            "./.env.test",
+            "./bin/phpunit",
+            "./phpunit.xml.dist",
+            "./tests/bootstrap.php"
+        ]
+    },
+    "symfony/polyfill-intl-grapheme": {
         "version": "v1.18.1"
     },
     "symfony/polyfill-intl-normalizer": {
@@ -298,6 +313,9 @@
     },
     "symfony/polyfill-php80": {
         "version": "v1.18.1"
+    },
+    "symfony/profiler-pack": {
+        "version": "v1.0.5"
     },
     "symfony/property-access": {
         "version": "v5.0.11"
@@ -355,6 +373,9 @@
     "symfony/stopwatch": {
         "version": "v5.0.11"
     },
+    "symfony/string": {
+        "version": "v5.1.5"
+    },
     "symfony/translation-contracts": {
         "version": "v2.2.0"
     },
@@ -396,6 +417,20 @@
     },
     "symfony/web-link": {
         "version": "v5.0.11"
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
+        },
+        "files": [
+            "./config/packages/dev/web_profiler.yaml",
+            "./config/packages/test/web_profiler.yaml",
+            "./config/routes/dev/web_profiler.yaml"
+        ]
     },
     "symfony/yaml": {
         "version": "v5.0.11"

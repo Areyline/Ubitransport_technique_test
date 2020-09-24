@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ScoreRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -19,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              "controller"=App\Controller\CalculateClassAverage::class
  *          },
  *      },
- *     itemOperations={"patch", "delete", "get"}
+ *     itemOperations={"get"}
  * )
  * @ORM\Entity(repositoryClass=ScoreRepository::class)
  */
@@ -30,21 +33,21 @@ class Score
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="float")
-     *
-     * @Groups({"score:write", "score:read"})
+     *@Assert\Range(min="0", max="20")
+     * @Groups({"score:write", "score:read", "student:read"})
      */
-    private $value;
+    private float $value;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"score:write", "score:read"})
+     * @Groups({"score:write", "score:read", "student:read"})
      */
-    private $course;
+    private string $course;
 
     /**
      * @ORM\ManyToOne(targetEntity=Student::class, inversedBy="scores")
@@ -52,7 +55,7 @@ class Score
      *
      * @Groups({"score:write"})
      */
-    private $student;
+    private Student $student;
 
     public function getId(): ?int
     {
